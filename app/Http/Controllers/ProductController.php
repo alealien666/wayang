@@ -36,10 +36,10 @@ class ProductController extends Controller
 
             $html = '
             <div class="gambar-produk">
-                <div class="gambar-slide">';
+                <div class="gambar-slide" style="overflow-x:auto; white-space:nowrap;">';
 
             foreach ($data['product_photo'] as $index => $photo) {
-                $html .= '<img alt="Gambar Produk ' . ($index + 1) . '" src="' . $photo . '"/>';
+                $html .= '<img alt="Gambar Produk ' . ($index + 1) . '" src="' . $photo . '" style="width:100%; max-width:400px; display:inline-block; margin-right:5px;"/>';
             }
 
             $html .= '
