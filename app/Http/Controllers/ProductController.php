@@ -35,19 +35,44 @@ class ProductController extends Controller
             $data['product_photo'] = $request->input('product_photo');
 
             $html = '
-            <div class="gambar-produk">
-                <div class="gambar-slide" style="overflow-x:auto; white-space:nowrap;">';
+                <div class="gambar-produk">
+                    <div class="carousel-container" style="position: relative; max-width: 400px; margin: auto; overflow: hidden; border-radius: 8px;">
+                        <div class="carousel-slide" style="display: flex; transition: transform 0.5s ease-in-out;">';
 
             foreach ($data['product_photo'] as $index => $photo) {
-                $html .= '<img alt="Gambar Produk ' . ($index + 1) . '" src="' . $photo . '" style="width:100%; max-width:400px; display:inline-block; margin-right:5px;"/>';
+                $html .= '<img alt="Gambar Produk ' . ($index + 1) . '" 
+                    src="' . $photo . '" 
+                    style="min-width:100%; max-width:100%; height:auto;"/>';
             }
 
             $html .= '
+                        </div>
+                        <button class="prev" style="position:absolute;top:50%;left:10px;transform:translateY(-50%);background:#000;color:#fff;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;">&#10094;</button>
+                        <button class="next" style="position:absolute;top:50%;right:10px;transform:translateY(-50%);background:#000;color:#fff;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;">&#10095;</button>
+                    </div>
+                    <div class="status-produk">
+                        <div class="info-produk">' . ($data['product_status'] ?? '') . '</div>
+                    </div>
                 </div>
-                <div class="status-produk">
-                    <div class="info-produk">' . ($data['product_status'] ?? '') . '</div>
-                </div>
-            </div>
+
+                <script>
+                    (function(){
+                        window.themeSetting = window.themeSetting || {};
+                        let slideIndex = 0;
+                        const slides = document.querySelector(".carousel-slide");
+                        const total = slides.children.length;
+
+                        document.querySelector(".next").addEventListener("click", () => {
+                            slideIndex = (slideIndex + 1) % total;
+                            slides.style.transform = "translateX(" + (-slideIndex * 100) + "%)";
+                        });
+
+                        document.querySelector(".prev").addEventListener("click", () => {
+                            slideIndex = (slideIndex - 1 + total) % total;
+                            slides.style.transform = "translateX(" + (-slideIndex * 100) + "%)";
+                        });
+                    })();
+                </script>
             
             <div class="detail-produk">
                 <div class="harga-produk">';
